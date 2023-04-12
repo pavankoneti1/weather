@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'mainpage.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>WEA<h1 id="h">T</h1><h1>HER</h1></h1>
+    </div>
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="selector">
+            <div class="inner">
+                Select City:<select name="city" size="1">
+                    <option > Andhra Pradesh</option>
+                    <option >Madhya Pradesh</option>
+                    <option >uttar pradesh</option>
+                    <option >Chennai</option>
+                    <option >pakistan</option>
+                    <option >japan</option>
+                    <option >china</option>
+                </select>
+            </div>
+            <div  id="d"></div>
+            <div class="inner">
+                <button id="b" type="button" onclick="fun()">
+                    get monthly data
+                </button>
+            </div>
+        </div>
+        <br>
+        <div>
+            <button type="submit" name="10days" value="10">past 10 days</button>
+        </div>
+        <div>
+            <button type="submit" name="7days" value="7">forecast 7 days</button>
+        </div>
+
+        <div class="getbutton">
+            <button type="submit">get</button>
+        </div>
+
+        <div class="getbutton">
+            <button type="submit" name="save" value = 'save'>save</button>
+        </div>
+
+    </form>
+
+    <script>
+        function fun() {
+            var x = 1;
+            document.getElementById('d').innerHTML = "<p> start Date:<input type='date' name='startdate'></p><p> end Date:<input type='date' name='enddate'></p>";
+            document.getElementById('b').innerHTML = "";
+            document.getElementById('b').style="background:transparent; border:transparent";
+            }
+    </script>
+
+{{r}}
+{{list}}
+{{dates}}
+</body>
+</html>

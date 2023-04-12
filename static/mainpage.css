@@ -1,0 +1,50 @@
+body {
+    background-color: rgb(244, 244, 170);
+    padding-left: 5%;
+    padding-right: 5%;
+
+}
+
+h1 {
+    text-align: center;
+    color: rgb(67, 67, 232);
+    display: inline;
+    text-decoration: solid;
+}
+
+#h {
+    color: rgb(241, 67, 67);
+    display: inline;
+}
+.header {
+    margin-top: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+
+.form {
+    /* display: flex; */
+}
+
+.d {
+    padding: auto;
+    /* flex: auto; */
+}
+
+.selector {
+    display: flex;
+    /* flex-direction: column; */
+    flex: auto;
+}
+
+.inner {
+    display: flex;
+    flex:auto;
+    height: 22px;
+}
+
+.getbutton {
+    /* display: block; */
+    padding-left: 25%;
+}
