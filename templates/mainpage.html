@@ -49,6 +49,12 @@
 
     </form>
 
+    <form method="get">
+        <div class="saved items">
+               <button type="submit" name="saved" value = 'saved'>saved</button>
+        </div>
+    </form>
+
     <script>
         function fun() {
             var x = 1;
@@ -56,10 +62,17 @@
             document.getElementById('b').innerHTML = "";
             document.getElementById('b').style="background:transparent; border:transparent";
             }
+
     </script>
 
 {{r}}
-{{list}}
-{{dates}}
+    <form method="post">
+        {% for i in list %}
+            <button type="submit" name="locations" value="{{i.location}}">{{i.location}}</button>
+        {% endfor %}
+    </form>
+
+
+<!--{{list}}-->
 </body>
 </html>
