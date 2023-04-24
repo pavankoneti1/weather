@@ -6,6 +6,6 @@ class WeatherModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     location = models.CharField(max_length=20)
 
-    def __str__(self):
-        return self.user
+    # def __str__(self):
+    #     return str(self.user)
 

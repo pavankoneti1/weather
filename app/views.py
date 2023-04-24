@@ -8,6 +8,7 @@ from  rest_framework.response import Response
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, action
 import requests
 from .serializers import WeatherSerializer
 from .models import *
@@ -92,15 +93,27 @@ def forecast30Days(request):
 class forecast30DaysCls(viewsets.ViewSet, APIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
+    # @action(methods=['post'], detail=True)
     def list(self, request):
         # template_name = 'mainpage.html'
         # template = HTMLFormRenderer()
         print('-------list')
-        return render(request, 'mainpage.html', {'r':'success'})
+        saved = request.GET.get('saved')
+        print(request.user.id)
+        data=''
+        if saved == 'saved':
+            data = WeatherModel.objects.filter(user_id=request.user.id)
+            # print
 
-    def get(self, request):
-        data = WeatherModel.objects.get(user = request.user)
-        return Response(data={'successsssssssss'}, template_name='mainage.html')
+        return render(request, 'mainpage.html', {'r':'success', 'list':data})
+
+    # @action(detail=False, methods=['post'])
+    def retrieve(self, request, pk=None):
+        print('-------get')
+        data = WeatherModel.objects.filter(user_id=request.user.id)
+        serializer = WeatherSerializer(data, many=True)
+        return Response(serializer.data, template_name='mainage.html')
 
     def post(self, request):
         city_name = request.POST.get('city')
@@ -110,17 +123,25 @@ class forecast30DaysCls(viewsets.ViewSet, APIView):
         fore7days = request.POST.get('7days')
         isSave = request.POST.get('save')
 
+        loc = request.POST.get('locations')
+        print(loc)
+        if loc is not None:
+            city_name = loc
+
         if isSave == 'save':
             data = request.data
             print(data)
             # id = User.objects.get(username = request.user).id
             # print(id)
-            serializer = WeatherSerializer(location=city_name, user=request.user.id)
-            print(serializer)
+            # serializer = WeatherSerializer(location=city_name, user=request.user.id)
+            serializer = WeatherSerializer(data={'location':city_name, 'user':request.user.id})
+
             if serializer.is_valid():
-                print(serializer.data)
+                print(serializer.validated_data.get('user'))
                 serializer.save()
             # WeatherModel.objects.create(user_id=request.user.id, location = city_name)
+
+
         url = f'http://api.openweathermap.org/data/2.5/weather?q={city_name}&units=imperial&appid=24d25b595cfccee0556412fbb9d21c3f'
         get_lat_long = requests.get(url).json()
         long = get_lat_long['coord']['lon']
@@ -187,4 +208,5 @@ class forecast30DaysCls(viewsets.ViewSet, APIView):
     def average(self, list):
         avgs = ["{:.2f}".format(sum(x)/24) for x in list]
         return avgs
+
 
